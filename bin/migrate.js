@@ -1,12 +1,13 @@
 const path = require('path');
 const migrate = require('migrate');
+const dotenv = require("dotenv");
+dotenv.config();
 
 const stateStore = require('../src/persistence/postgres-state-storage');
 
 const migrationsDirectory = path.resolve(__dirname, '../src/migrations');
 
 const [command] = process.argv.slice(2);
-
 new Promise((resolve, reject) => {
   migrate.load(
     {

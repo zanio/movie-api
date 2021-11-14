@@ -7,7 +7,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgres://user:pass@postgres:5432/db
+      DATABASE_URL: postgres://user:pass@host.docker.internal:35432/db
       NODE_ENV: development
       PORT: 3000
     ports:

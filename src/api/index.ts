@@ -1,16 +1,12 @@
 import express from 'express';
-import session from './session';
 
 const router = express.Router();
 
 import comment from './comment';
+import Movie from "./Movie";
 
-router.get('/test', (request, response) =>{
-  return response.status(200)
-    .json({message: 'paresh'});
-});
 
-router.use('/api/comments', comment);
-router.use('/api/sessions', session);
+router.use('/api/v1/comments', comment);
+router.use('/api/v1/movies', Movie);
 
 export default router;

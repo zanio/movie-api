@@ -4,6 +4,28 @@
 
 ## Setup
 
+###OPTION 1
+
+### Database setup
+
+TO CREATE A DATABASE, USER AND GRANT ALL PRIVILEGE TO THAT USER ON THE CREATED DATABASE RUN THE FOLLOWING CODE:
+
+If you are just setting up your environment then Run The below code on the project root directory of the application--
+
+ ```sql
+export PGPASSWORD='<root-postgres-db-password>'; psql -h localhost -p 5432 -U <root-user> -f initializer.sql -d <root-database>
+```
+for example you can type this:
+```sql
+export PGPASSWORD='emma2000'; psql -h localhost -p 5432 -U postgres -f initializer.sql -d postgres
+```
+
+Where `<root-postgres-db-password>` is the root password of postgres You should set multiple database, i.e for test and
+dev. The test environment would handle integration testing All you have to id to edit the initialize.sql with your own
+database name, database password and database  username.
+
+### OPTION 2
+
 Pre-requisites:
 
 - Docker for Desktop

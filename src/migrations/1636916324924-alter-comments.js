@@ -1,33 +1,23 @@
 const db = require('../persistence/db');
-
 module.exports.up = async function (next) {
   const client = await db.connect();
-
   await client.query(`
-  CREATE TABLE IF NOT EXISTS comment (
-    id uuid PRIMARY KEY,
-    message varchar(500) NOT NULL,
-    movie_id INTEGER NOT NULL,
-    created_at timestamp default current_timestamp
-
-    );
-  `);
-
-  await client.query(`
-  CREATE INDEX common_id on comment (id);
-  `);
+    ALTER TABLE comment
+      ADD COLUMN ip varchar(120);
+`);
 
   await client.release(true);
-  next();
-};
+  next()
+}
 
 module.exports.down = async function (next) {
   const client = await db.connect();
 
   await client.query(`
-  DROP TABLE comment;
+    ALTER TABLE comment
+    DROP COLUMN ip;
   `);
 
   await client.release(true);
-  next();
-};
+  next()
+}
