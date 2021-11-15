@@ -1,10 +1,9 @@
-# Express Postgres Starter
+# Movie app
 
-> A starter project for Node.js with Express and Postgres
 
 ## Setup
 
-###OPTION 1
+### OPTION 1
 
 ### Database setup
 
@@ -79,12 +78,3 @@ Followed by:
 npm run migrate up
 ```
 
-## Session/Authentication management
-
-Session management is done through a custom sessions table, `/api/session` endpoints (see [./src/api/session.js](./src/api/session.js)) and leveraging [client-sessions](https://github.com/mozilla/node-client-sessions).
-
-
-
-
-# movie-api
-# movie-api

@@ -1,5 +1,5 @@
 {
-  "name": "express-postgres-starter",
+  "name": "movie-api",
   "private": true,
   "version": "1.0.0",
   "description": "Movie app",
@@ -50,10 +50,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HugoDF/express-postgres-starter.git"
-  },
-  "bugs": {
-    "url": "https://github.com/HugoDF/express-postgres-starter/issues"
-  },
-  "homepage": "https://github.com/HugoDF/express-postgres-starter#readme"
+    "url": "git+https://github.com/zanio/movie-api.git"
+  }
 }
