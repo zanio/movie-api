@@ -3,6 +3,7 @@ import {HttpService} from "../modules/HttpService";
 import dotenv from "dotenv";
 import {CheckMovieExist} from "../middleware/checkMovieExist";
 import {reduceFn, sortFn} from "../modules/utility";
+
 const Comment = require('../persistence/comments');
 const router = express.Router();
 dotenv.config();
@@ -13,29 +14,35 @@ router.get('/', async (request, response) =>{
   const movies = content.results;
   const ids = movies.map(item=>item.url.split('/')[5]);
   const comments = await Comment.findAll();
-  console.log(ids)
   const movieIdsAndCommentIdFromComments = comments.map(item=> ({
     movieId:item.movie_id,id:item.id
   }));
-  console.log(movieIdsAndCommentIdFromComments)
   const baseUrl = process.env.BASE_URL+"/api/v1/comments/"
   const filmLink = "https://swapi.dev/api/films/";
   const movieResponse = [];
   const commentLinks = [];
-  movieIdsAndCommentIdFromComments.forEach(({id:commentId,movieId:id}) => {
-    const doesMovieIdExist = ids.filter(movieId=>id===movieId.toString());
+  // tslint:disable-next-line:variable-name
+  console.log(movieIdsAndCommentIdFromComments);
+  const cleanMovieIds = []
+  movieIdsAndCommentIdFromComments.forEach((item) => {
+    const filterComments = movieIdsAndCommentIdFromComments
+      .filter((it) =>it.movieId===item.movieId).map((it) =>it.id);
+    const movie ={id:item.movieId,comments:filterComments};
+    if(!cleanMovieIds.some(someItem=>someItem.id===item.movieId)){
+      cleanMovieIds.push(movie)
+    }
+  })
+  cleanMovieIds.forEach((cleanItemMovie) => {
     let newMovie =null;
-    if(doesMovieIdExist){
-    const filmLinkWithId = filmLink+id+"/";
+    const filmLinkWithId = filmLink+cleanItemMovie.id+"/";
       newMovie =  movies.find(item=>item.url===filmLinkWithId);
       if(newMovie){
-        newMovie.comments=commentLinks.push(baseUrl+commentId);
+        newMovie.comments=cleanItemMovie.comments.map((commentItem) => baseUrl + commentItem);
         movieResponse.push(newMovie);
       }
 
-    }
   });
- const movieIdFromComment = movieIdsAndCommentIdFromComments.map(item=>item.movieId.toString());
+  const movieIdFromComment = movieIdsAndCommentIdFromComments.map(item=>item.movieId.toString());
   const intersectionMovieIds = ids.filter(x => !movieIdFromComment.includes(x));
   intersectionMovieIds.forEach(id=>{
     const filmLinkWithId = filmLink+id+"/";

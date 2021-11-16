@@ -13,9 +13,18 @@ app.get('/health', (request, response) => response.sendStatus(200));
 
 app.use(morgan('short'));
 app.use(express.json());
+
+
+
 app.use(helmet());
 
 app.use(api);
+app.get('*',(req, res, next) => {
+  res.status(404).send({
+    status: 404,
+    error: 'Not found'
+  })
+})
 
 let server;
 export default {
