@@ -38,6 +38,7 @@ router.get('/', async (request, response) =>{
       newMovie =  movies.find(item=>item.url===filmLinkWithId);
       if(newMovie){
         newMovie.comments=cleanItemMovie.comments.map((commentItem) => baseUrl + commentItem);
+        newMovie.id=cleanItemMovie.id;
         movieResponse.push(newMovie);
       }
 
@@ -50,13 +51,15 @@ router.get('/', async (request, response) =>{
 
     if(newMovie){
       newMovie.comments = []
+      newMovie.id=id;
       movieResponse.push(newMovie);
     }
   })
 
   const lastResponse = movieResponse
-    .map(({release_date,title,
-            opening_crawl,comments:comm,url:ul})=>({release_date,title,opening_crawl,commentCount:comm.length,comments:comm,url:ul}))
+    .map(({release_date,title,id,
+            // tslint:disable-next-line:radix
+            opening_crawl,comments:comm,url:ul})=>({id:parseInt(id),release_date,title,opening_crawl,commentCount:comm.length,comments:comm,url:ul}))
     .sort(sortFn('release_date')).reverse();
 
   return response.status(200)
