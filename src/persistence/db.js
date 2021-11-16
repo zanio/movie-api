@@ -4,5 +4,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 module.exports = new Pool({
   max: 10,
-  connectionString: process.env.DATABASE_URL
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.ssl||false
 });
