@@ -9,6 +9,8 @@ services:
     environment:
       DATABASE_URL: postgres://user:pass@host.docker.internal:35432/db
       NODE_ENV: development
+      MOVIE_API_URL: https://swapi.dev/api/
+      BASE_URL: http://localhost:4141
       PORT: 3000
     ports:
       - "3000:3000"
