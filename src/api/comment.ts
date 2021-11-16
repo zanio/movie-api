@@ -61,7 +61,7 @@ router.get('/:comment_id', async (request
         .json({message: 'comment not found'});
     }
     return response.status(200)
-      .json({message: 'movies successfully retrieved', data: comment});
+      .json({message: 'Comment successfully retrieved', data: comment});
 
   } catch (err) {
     return response
