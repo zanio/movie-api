@@ -122,7 +122,7 @@ router.get('/:movie_id/characters', CheckMovieExist, async (request,
     }};
 
   return response.status(200)
-    .json({message: 'movies successfully retrieved', data:dataResponse});
+    .json({message: 'characters successfully retrieved', data:dataResponse});
 });
 
 
@@ -133,7 +133,7 @@ router.get('/:movie_id/comments', CheckMovieExist, async (request
     const comments = await Comment.findAllByMovieId(paramsId);
     // comment should be listed in reverse chronological order.
     return response.status(200)
-      .json({message: 'characters successfully retrieved', data: comments});
+      .json({message: 'comments successfully retrieved', data: comments});
   } catch (e) {
     return response
       .status(500)
