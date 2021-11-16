@@ -1,11 +1,11 @@
 # Movie app
 
 ## Reference Documentation
-This is a project to demonstrate RESTful API with Node js . The task is to build a a small set of rest API endpoints using
+This is a project to demonstrate RESTful API with Node js . The task is to build a  small set of rest API endpoints using
 NodeJS that can be used for listing 
 the names of Star Wars movies along with their opening crawls and comment counts, 
 adding and listing anonymous comments for a movie, and getting the character list for a movie.
-you can find the hosted documentation @ [MovieApi](https://documenter.getpostman.com/view/7638519/UVC8Ckxo)
+you can find the hosted documentation @ [MovieApi](https://documenter.getpostman.com/view/7638519/UVC9hkPJ)
 
 ## Setup
 
