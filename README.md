@@ -9,6 +9,14 @@ you can find the hosted documentation @ [MovieApi](https://documenter.getpostman
 
 ## Setup
 
+#### ENVIRONMENT VARIABLE.
+The required environment variables can be gotten from the env.example file. Please note that all properties in
+the env.example file must be set. Simply create a new file called .env and copy past the content of `env.example` into the `.env` file. 
+If you are not runing the app with docker then use OPTION 1 below to set up your database, then run migration with 
+ `npm run migrate up` and start the app using `npm run dev`. If you are using OPTION 2 then you only need to run the docker-compose up 
+command followed by `npm run migrate up` within the docker container. 
+you can enter the docker container by runing `docker-compose run app bash`
+
 ### OPTION 1
 
 ### Database setup
@@ -34,10 +42,6 @@ database name, database password and database  username.
 Pre-requisites:
 
 - Docker for Desktop
-
-#### ENVIRONMENT VARIABLE.
-other required environment variables can be gotten from the env.example file. Please note that all properties in
-the env.example file. Simply create a new file called .env and copy past the content of `env.example` into the `.env` file
 
 Run `docker-compose up` in the root of the project.
 
