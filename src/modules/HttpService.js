@@ -7,6 +7,7 @@ export const HttpService = {
     return response.data;
   } catch (error) {
     console.error(error);
+    return []
   }
 }
 }

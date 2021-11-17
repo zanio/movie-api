@@ -11,30 +11,31 @@ dotenv.config();
 router.get('/', async (request, response) =>{
   const url = process.env.MOVIE_API_URL+"films"
  const content = await HttpService.get(url)
-  const movies = content.results;
-  const ids = movies.map(item=>item.url.split('/')[5]);
-  const comments = await Comment.findAll();
-  const movieIdsAndCommentIdFromComments = comments.map(item=> ({
-    movieId:item.movie_id,id:item.id
-  }));
-  const baseUrl = process.env.BASE_URL+"/api/v1/comments/"
-  const filmLink = "https://swapi.dev/api/films/";
-  const movieResponse = [];
-  const commentLinks = [];
-  // tslint:disable-next-line:variable-name
-  console.log(movieIdsAndCommentIdFromComments);
-  const cleanMovieIds = []
-  movieIdsAndCommentIdFromComments.forEach((item) => {
-    const filterComments = movieIdsAndCommentIdFromComments
-      .filter((it) =>it.movieId===item.movieId).map((it) =>it.id);
-    const movie ={id:item.movieId,comments:filterComments};
-    if(!cleanMovieIds.some(someItem=>someItem.id===item.movieId)){
-      cleanMovieIds.push(movie)
-    }
-  })
-  cleanMovieIds.forEach((cleanItemMovie) => {
-    let newMovie =null;
-    const filmLinkWithId = filmLink+cleanItemMovie.id+"/";
+  const movies = content?.results;
+  if(movies){
+    const ids = movies.map(item=>item.url.split('/')[5]);
+    const comments = await Comment.findAll();
+    const movieIdsAndCommentIdFromComments = comments.map(item=> ({
+      movieId:item.movie_id,id:item.id
+    }));
+    const baseUrl = process.env.BASE_URL+"/api/v1/comments/"
+    const filmLink = "https://swapi.dev/api/films/";
+    const movieResponse = [];
+    const commentLinks = [];
+    // tslint:disable-next-line:variable-name
+    console.log(movieIdsAndCommentIdFromComments);
+    const cleanMovieIds = []
+    movieIdsAndCommentIdFromComments.forEach((item) => {
+      const filterComments = movieIdsAndCommentIdFromComments
+        .filter((it) =>it.movieId===item.movieId).map((it) =>it.id);
+      const movie ={id:item.movieId,comments:filterComments};
+      if(!cleanMovieIds.some(someItem=>someItem.id===item.movieId)){
+        cleanMovieIds.push(movie)
+      }
+    })
+    cleanMovieIds.forEach((cleanItemMovie) => {
+      let newMovie =null;
+      const filmLinkWithId = filmLink+cleanItemMovie.id+"/";
       newMovie =  movies.find(item=>item.url===filmLinkWithId);
       if(newMovie){
         newMovie.comments=cleanItemMovie.comments.map((commentItem) => baseUrl + commentItem);
@@ -42,28 +43,32 @@ router.get('/', async (request, response) =>{
         movieResponse.push(newMovie);
       }
 
-  });
-  const movieIdFromComment = movieIdsAndCommentIdFromComments.map(item=>item.movieId.toString());
-  const intersectionMovieIds = ids.filter(x => !movieIdFromComment.includes(x));
-  intersectionMovieIds.forEach(id=>{
-    const filmLinkWithId = filmLink+id+"/";
-    const newMovie = movies.find(item=>item.url===filmLinkWithId);
+    });
+    const movieIdFromComment = movieIdsAndCommentIdFromComments.map(item=>item.movieId.toString());
+    const intersectionMovieIds = ids.filter(x => !movieIdFromComment.includes(x));
+    intersectionMovieIds.forEach(id=>{
+      const filmLinkWithId = filmLink+id+"/";
+      const newMovie = movies.find(item=>item.url===filmLinkWithId);
 
-    if(newMovie){
-      newMovie.comments = []
-      newMovie.id=id;
-      movieResponse.push(newMovie);
-    }
-  })
+      if(newMovie){
+        newMovie.comments = []
+        newMovie.id=id;
+        movieResponse.push(newMovie);
+      }
+    })
 
-  const lastResponse = movieResponse
-    .map(({release_date,title,id,
-            // tslint:disable-next-line:radix
-            opening_crawl,comments:comm,url:ul})=>({id:parseInt(id),release_date,title,opening_crawl,commentCount:comm.length,comments:comm,url:ul}))
-    .sort(sortFn('release_date')).reverse();
+    const lastResponse = movieResponse
+      .map(({release_date,title,id,
+              // tslint:disable-next-line:radix
+              opening_crawl,comments:comm,url:ul})=>({id:parseInt(id),release_date,title,opening_crawl,commentCount:comm.length,comments:comm,url:ul}))
+      .sort(sortFn('release_date')).reverse();
 
+    return response.status(200)
+      .json({message: 'movies successfully retrieved', data: lastResponse});
+  } else
   return response.status(200)
-    .json({message: 'movies successfully retrieved', data: lastResponse});
+    .json({message: 'movies successfully retrieved', data: []});
+
 });
 
 router.get('/:movie_id/characters', CheckMovieExist, async (request,

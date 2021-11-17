@@ -6,12 +6,8 @@ services:
     container_name: MovieApi
     depends_on:
       - postgres
-    environment:
-      DATABASE_URL: postgres://user:pass@host.docker.internal:35432/db
-      NODE_ENV: development
-      MOVIE_API_URL: https://swapi.dev/api/
-      BASE_URL: http://localhost:4141
-      PORT: 3000
+    env_file:
+      - .env
     ports:
       - "3000:3000"
     command: npm run dev
@@ -23,7 +19,5 @@ services:
     image: postgres:10.4
     ports:
       - "35432:5432"
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: db
+    env_file:
+      - .env

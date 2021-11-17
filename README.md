@@ -35,6 +35,10 @@ Pre-requisites:
 
 - Docker for Desktop
 
+#### ENVIRONMENT VARIABLE.
+other required environment variables can be gotten from the env.example file. Please note that all properties in
+the env.example file. Simply create a new file called .env and copy past the content of `env.example` into the `.env` file
+
 Run `docker-compose up` in the root of the project.
 
 It will bring up Postgres and the Express application server in development mode.
